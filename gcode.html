@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.13/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+</head>
+<body>
+    
+    <div id="app" height="100%">
+        <template>
+            <el-container>
+                <el-header></el-header>
+                <el-main>
+                    <!-- <el-row>
+                        <el-col :span="24">
+                            
+                        </el-col>
+                    </el-row> -->
+                    <el-row type="flex" justify="center" align="middle">
+                        
+                            <!-- <el-card class="box-card">
+                                <div slot="header" class="clearfix">
+                                    <span>车票信息</span>
+                                </div>
+                                <div class="text item">
+                                    <el-row>
+                                        <el-col :span="8">车次：</el-col>
+                                    </el-row>
+                                </div>
+                            </el-card> -->
+                            <el-select v-model="value" placeholder="请选择公交车">
+                                <el-option
+                                  v-for="item in options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                              </el-select>
+                        
+                    
+                    
+                    
+                    
+                            <el-input-number v-model="peopleNum" @change="numChange" :min="1" :max="40" label="描述文字"></el-input-number>
+                        
+
+                    
+                            <el-button type="primary" @click="dialogVisible = true">车票预支付</el-button>
+                            <el-dialog title="" :visible.sync="dialogVisible" :before-close="handleClose" width="75%">
+                                <img src="./img/c1.png" class="image" width="100%">
+                                <el-row type="flex" justify="center" align="middle">
+                                    <span>你已成功购票{{ peopleNum }}人</span>
+                                </el-row>
+                                <!-- <span slot="footer" class="dialog-footer">
+                                    <el-button @click="dialogVisible = false">取 消</el-button>
+                                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                                </span> -->
+                            </el-dialog>
+                        
+                    </el-row>
+
+
+                </el-main>
+                <el-footer>
+                    
+                </el-footer>
+            </el-container>
+        </template>
+    </div>
+    <script>
+        var pNum = 1;
+        var Main = {
+            data() {
+                return {
+                    dialogVisible: false,
+                    peopleNum: pNum,
+                    value: '',
+                    options: [
+                        { value: '选项1', label: 'T88' },
+                        { value: '选项2', label: '501' },
+                        { value: '选项3', label: 'T89' },
+                        { value: '选项4', label: '330' },
+                        { value: '选项5', label: '51' }
+                    ]
+
+                };
+            },
+            methods: {
+                handleClose(done) {
+                    this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+                },
+                numChange(value) {
+                    pNum = value;
+                }
+            }
+        };
+        var Ctor = Vue.extend(Main)
+        new Ctor().$mount('#app')
+    </script>
+</body>
+</html>
