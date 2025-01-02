@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>购票系统</title>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.13/vue.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.13/vue.js"></script> -->
+    <script src="https://cdn.staticfile.net/vue/2.6.13/vue.min.js"></script>
+    <!-- <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"></script> -->
+     
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 </head>
@@ -25,17 +28,7 @@
                     </el-row> -->
                     <el-row type="flex" justify="center" align="middle">
                         
-                            <!-- <el-card class="box-card">
-                                <div slot="header" class="clearfix">
-                                    <span>车票信息</span>
-                                </div>
-                                <div class="text item">
-                                    <el-row>
-                                        <el-col :span="8">车次：</el-col>
-                                    </el-row>
-                                </div>
-                            </el-card> -->
-                            <el-select v-model="value" placeholder="请选择公交车">
+                            <el-select v-model="theBus" placeholder="请选择公交车" @change="busChange">
                                 <el-option
                                   v-for="item in options"
                                   :key="item.value"
@@ -45,18 +38,16 @@
                               </el-select>
                         
                     
-                    
-                    
-                    
                             <el-input-number v-model="peopleNum" @change="numChange" :min="1" :max="40" label="描述文字"></el-input-number>
                         
 
                     
-                            <el-button type="primary" @click="dialogVisible = true">车票预支付</el-button>
+                            <el-button type="primary" @click="dialogVisible = true" :disabled="isButtonDisabled">车票预支付</el-button>
                             <el-dialog title="" :visible.sync="dialogVisible" :before-close="handleClose" width="75%">
-                                <img src="./img/c1.png" class="image" width="100%">
+                                <!-- <img src="./img/c1.png" class="image" width="100%"> -->
+                                <el-image style="width: 100%" :src="gcodeUrl" :fit="fit"></el-image>
                                 <el-row type="flex" justify="center" align="middle">
-                                    <span>你已成功购票{{ peopleNum }}人</span>
+                                    <span>你已成功购买{{ peopleNum }}人的{{ theBus }}公交车票</span>
                                 </el-row>
                                 <!-- <span slot="footer" class="dialog-footer">
                                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -75,19 +66,22 @@
         </template>
     </div>
     <script>
-        var pNum = 1;
+        var theBus = "";
         var Main = {
             data() {
                 return {
                     dialogVisible: false,
-                    peopleNum: pNum,
+                    gcodeUrl:"./img/c1.png",
+                    fit: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+                    peopleNum : 1,
                     value: '',
+                    isButtonDisabled: true ,
                     options: [
-                        { value: '选项1', label: 'T88' },
-                        { value: '选项2', label: '501' },
-                        { value: '选项3', label: 'T89' },
-                        { value: '选项4', label: '330' },
-                        { value: '选项5', label: '51' }
+                        { value: 'T88', label: 'T88' },
+                        { value: '501', label: '501' },
+                        { value: 'T89', label: 'T89' },
+                        { value: '330', label: '330' },
+                        { value: '51', label: '51' }
                     ]
 
                 };
@@ -102,11 +96,20 @@
                 },
                 numChange(value) {
                     pNum = value;
+                },
+                busChange(value) {
+                    theBus = value;
+                    this.isButtonDisabled = !value;
                 }
+
             }
         };
         var Ctor = Vue.extend(Main)
         new Ctor().$mount('#app')
+        // new Vue({
+        //     el: '#app',
+        //     render: h => h(Main)
+        // });
     </script>
 </body>
 </html>
